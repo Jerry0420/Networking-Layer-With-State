@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: BaseViewController, DataLoading {
     
-    var memberApiManager: MemberAPIManager?
+    var memberApiManager: MemberAPIService?
     
     var state: UIState<[Member]> = UIState.loading {
         didSet {
@@ -33,7 +33,7 @@ class ViewController: BaseViewController, DataLoading {
     private func loadContent() {
         //kind of like transition
         state = .loading
-        memberApiManager = MemberAPIManager()
+        memberApiManager = MemberAPIService()
         memberApiManager?.signUp(key1: "value1", key2: "value2", header: "headerValue", model: ResponseMemberData.self) { [weak self](result) in
             guard let weakSelf = self else {return}
             switch result {

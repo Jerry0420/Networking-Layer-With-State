@@ -9,7 +9,7 @@
 import Foundation
 
 // MARK: - Public method for MemberAPIBaseURL
-struct MemberAPIManager: ResponseManager {
+struct MemberAPIService: ResponseManager {
     
     fileprivate let session: URLSessionProtocol
     
@@ -19,7 +19,7 @@ struct MemberAPIManager: ResponseManager {
     
     func signUp<T>(key1: String, key2: String, header: String, model: T.Type, _ completionHandler: @escaping ResultCompletionHandler<T>) -> URLSessionDataTaskProtocol {
         
-        let request = HTTPService.generateRequest(with: ServiceAPI.memberBaseURL(.signUp(key1: key1, key2: key2, header: header)))
+        let request = HTTPService.generateRequest(with: MemberAPI.signUp(key1: key1, key2: key2, header: header))
         let task = session.dataTask(with: request) { (data, response, url, error) in
             self.handle(with: (data, response, url, error), model: model, completionHandler: completionHandler)
         }  
@@ -28,7 +28,7 @@ struct MemberAPIManager: ResponseManager {
     
     func signIn<T>(key1: String, key2: String, header: String, model: T.Type, _ completionHandler: @escaping ResultCompletionHandler<T>) -> URLSessionDataTaskProtocol {
         
-        let request = HTTPService.generateRequest(with: ServiceAPI.memberBaseURL(.signIn(key1: key1, key2: key2, header: header)))
+        let request = HTTPService.generateRequest(with: MemberAPI.signIn(key1: key1, key2: key2, header: header))
         let task = session.dataTask(with: request) { (data, response, url, error) in
             self.handle(with: (data, response, url, error), model: model, completionHandler: completionHandler)
         }
@@ -37,7 +37,7 @@ struct MemberAPIManager: ResponseManager {
     
     func signOut<T>(key1: String, key2: String, header: String, model: T.Type, _ completionHandler: @escaping ResultCompletionHandler<T>) -> URLSessionDataTaskProtocol {
         
-        let request = HTTPService.generateRequest(with: ServiceAPI.memberBaseURL(.signOut(key1: key1, key2: key2, header: header)))
+        let request = HTTPService.generateRequest(with: MemberAPI.signOut(key1: key1, key2: key2, header: header))
         let task = session.dataTask(with: request) { (data, response, url, error) in
             self.handle(with: (data, response, url, error), model: model, completionHandler: completionHandler)
         }
