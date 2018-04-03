@@ -10,19 +10,19 @@ import UIKit
 
 // MARK: - UIState
 ///A list of states. Binding data content to specific view
-enum UIState<Content: Codable> {
+enum UIState<DataModel: Codable> {
     case loading
-    case loaded(Content) //載入完成
+    case loaded(DataModel) //載入完成
     case error(NetworkingError)
     case empty(String)
 }
 
-// MARK: - DataLoading
+// MARK: - UIStateProtocol
 ///For UIState implementation
-protocol DataLoading {
-    associatedtype Content: Codable
+protocol UIStateProtocol {
+    associatedtype DataModel: Codable
     
-    var state: UIState<Content> { get set }
+    var state: UIState<DataModel> { get set }
     var loadingView: LoadingView { get }
     var errorView: ErrorView { get }
     var emptyView: EmptyView { get }
@@ -30,7 +30,7 @@ protocol DataLoading {
     func update()
 }
 
-extension DataLoading where Self: UIViewController {
+extension UIStateProtocol where Self: UIViewController {
     func update() {
         switch state {
         case .loading:

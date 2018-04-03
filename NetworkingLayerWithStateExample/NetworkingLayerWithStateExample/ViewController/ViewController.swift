@@ -8,9 +8,9 @@
 
 import UIKit
 
-class ViewController: BaseViewController, DataLoading {
+class ViewController: BaseViewController, UIStateProtocol {
     
-    var memberApiManager: MemberAPIService?
+    var memberApiService: MemberAPIService?
     
     var state: UIState<[Member]> = UIState.loading {
         didSet {
@@ -33,12 +33,12 @@ class ViewController: BaseViewController, DataLoading {
     private func loadContent() {
         //kind of like transition
         state = .loading
-        memberApiManager = MemberAPIService()
-        memberApiManager?.signUp(key1: "value1", key2: "value2", header: "headerValue", model: ResponseMemberData.self) { [weak self](result) in
+        memberApiService = MemberAPIService()
+        memberApiService?.signUp(key1: "value1", key2: "value2", header: "headerValue", model: ResponseMemberData.self) { [weak self](result) in
             guard let weakSelf = self else {return}
             switch result {
-            case .success(let model):
-                weakSelf.state = ((model.members.count > 0) ? .loaded(model.members) : .empty("input empty category..."))
+            case .success(let dataModel):
+                weakSelf.state = (dataModel.members.count > 0) ? (.loaded(dataModel.members)) : (.empty("input empty category...."))
             case .failure(let error):
                 weakSelf.state = .error(error)
             }
