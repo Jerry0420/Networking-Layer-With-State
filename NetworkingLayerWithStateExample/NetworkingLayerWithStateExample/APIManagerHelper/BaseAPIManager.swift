@@ -27,14 +27,44 @@ enum MemberAPI {
         return "https://memberBaseURL.com" + endPoint
     }
     
-    fileprivate func fetchSignUpParameters(key1: String, key2: String, header: String)->(parameters: [String : Any], header: [String: String]) {
-        return (parameters: ["signUpAccount" : key1, "signUpPassword": key2 ], header: ["token": header])
+    fileprivate func fetchSignUpParameters()->(parameters: [String : Any], header: [String: String]) {
+        var tempParameters = [String : Any]()
+        var tempHeader = [String: String]()
+        switch self {
+        case let .signUp (key1: key1, key2: key2, header: header):
+            tempParameters["signUpAccount"] = key1
+            tempParameters["signUpPassword"] = key2
+            tempHeader["token"] = header
+        default:
+            break
+        }
+        return (parameters: tempParameters, header: tempHeader)
     }
-    fileprivate func fetchSignInParameters(key1: String, key2: String, header: String)->(parameters: [String : Any], header: [String: String]) {
-        return (parameters: ["signInAccount" : key1, "signInPassword": key2 ], header: ["token": header])
+    fileprivate func fetchSignInParameters()->(parameters: [String : Any], header: [String: String]) {
+        var tempParameters = [String : Any]()
+        var tempHeader = [String: String]()
+        switch self {
+        case let .signIn (key1: key1, key2: key2, header: header):
+            tempParameters["signInAccount"] = key1
+            tempParameters["signInPassword"] = key2
+            tempHeader["token"] = header
+        default:
+            break
+        }
+        return (parameters: tempParameters, header: tempHeader)
     }
-    fileprivate func fetchSignOutParameters(key1: String, key2: String, header: String)->(parameters: [String : Any], header: [String: String]) {
-        return (parameters: ["signOutAccount" : key1, "signOutPassword": key2 ], header: ["token": header])
+    fileprivate func fetchSignOutParameters()->(parameters: [String : Any], header: [String: String]) {
+        var tempParameters = [String : Any]()
+        var tempHeader = [String: String]()
+        switch self {
+        case let .signOut (key1: key1, key2: key2, header: header):
+            tempParameters["signOutAccount"] = key1
+            tempParameters["signOutPassword"] = key2
+            tempHeader["token"] = header
+        default:
+            break
+        }
+        return (parameters: tempParameters, header: tempHeader)
     }
 }
 
@@ -42,16 +72,16 @@ extension MemberAPI: APIEndPointProtocol {
     func provideValues() -> APIRequestValues {
         
         switch self {
-        case .signUp(key1: let value1, key2: let value2, header: let headerValue):
-            let results = fetchSignUpParameters(key1: value1, key2: value2, header: headerValue)
+        case .signUp:
+            let results = fetchSignUpParameters()
             return APIRequestValues(url: urlString, httpMethod: .GET, parameters: results.parameters, header: results.header, contentType: .others)
             
-        case .signIn(key1: let value1, key2: let value2, header: let headerValue):
-            let results = fetchSignInParameters(key1: value1, key2: value2, header: headerValue)
+        case .signIn:
+            let results = fetchSignInParameters()
             return APIRequestValues(url: urlString, httpMethod: .GET, parameters: results.parameters, header: results.header, contentType: .others)
             
-        case .signOut(key1: let value1, key2: let value2, header: let headerValue):
-            let results = fetchSignOutParameters(key1: value1, key2: value2, header: headerValue)
+        case .signOut:
+            let _ = fetchSignOutParameters()
             return APIRequestValues(url:urlString)
         }
     }
@@ -74,12 +104,32 @@ enum ShowAPI {
         return "https://showBaseURL.com" + endPoint
     }
     
-    fileprivate func fetchJoinParameters(key1: String, key2: String, header: String)->(parameters: [String : Any], header: [String: String]) {
-        return (parameters: ["joinShowID" : key1, "time": key2 ], header: ["token": header])
+    fileprivate func fetchJoinParameters()->(parameters: [String : Any], header: [String: String]) {
+        var tempParameters = [String : Any]()
+        var tempHeader = [String: String]()
+        switch self {
+        case let .join (key1: key1, key2: key2, header: header):
+            tempParameters["joinShowID"] = key1
+            tempParameters["time"] = key2
+            tempHeader["token"] = header
+        default:
+            break
+        }
+        return (parameters: tempParameters, header: tempHeader)
     }
     
-    fileprivate func fetchExitParameters(key1: String, key2: String, header: String)->(parameters: [String : Any], header: [String: String]) {
-        return (parameters: ["exitShowID" : key1, "time": key2 ], header: ["token": header])
+    fileprivate func fetchExitParameters()->(parameters: [String : Any], header: [String: String]) {
+        var tempParameters = [String : Any]()
+        var tempHeader = [String: String]()
+        switch self {
+        case let .exit (key1: key1, key2: key2, header: header):
+            tempParameters["exitShowID"] = key1
+            tempParameters["time"] = key2
+            tempHeader["token"] = header
+        default:
+            break
+        }
+        return (parameters: tempParameters, header: tempHeader)
     }
 }
 
@@ -87,11 +137,11 @@ extension ShowAPI: APIEndPointProtocol {
     func provideValues() -> APIRequestValues {
         
         switch self {
-        case .join(key1: let value1, key2: let value2, header: let headerValue):
-            let results = fetchJoinParameters(key1: value1, key2: value2, header: headerValue)
+        case .join:
+            let results = fetchJoinParameters()
             return APIRequestValues(url: urlString, httpMethod: .GET, parameters: results.parameters, header: results.header, contentType: .others)
-        case .exit(key1: let value1, key2: let value2, header: let headerValue):
-            let results = fetchExitParameters(key1: value1, key2: value2, header: headerValue)
+        case .exit:
+            let _ = fetchExitParameters()
             return APIRequestValues(url:urlString)
         }
     }
