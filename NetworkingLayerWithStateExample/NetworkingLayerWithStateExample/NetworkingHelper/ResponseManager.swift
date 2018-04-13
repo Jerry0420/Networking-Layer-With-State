@@ -16,7 +16,7 @@ protocol ResponseManager {
     init(session: URLSessionProtocol)
     
     ///Response check
-    func handle<T>(with response: responseContent, model: T.Type, completionHandler: ResultCompletionHandler<T>)
+    func handle<T>(with responseContent: responseContent, model: T.Type, completionHandler: ResultCompletionHandler<T>)
 }
 
 extension ResponseManager {
