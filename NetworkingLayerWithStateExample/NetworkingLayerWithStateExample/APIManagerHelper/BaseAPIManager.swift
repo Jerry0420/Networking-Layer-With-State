@@ -28,42 +28,21 @@ enum MemberAPI {
     }
     
     fileprivate func fetchSignUpParameters() -> RequestModel {
-        var tempParameters = [String : Any]()
-        var tempHeader = [String: String]()
-        switch self {
-        case let .signUp (key1: key1, key2: key2, header: header):
-            tempParameters["signUpAccount"] = key1
-            tempParameters["signUpPassword"] = key2
-            tempHeader["token"] = header
-        default:
-            break
-        }
+        guard case let .signUp (key1: key1, key2: key2, header: header) = self else { return (nil, nil) }
+        let tempParameters: [String : Any] = ["signUpAccount": key1, "signUpPassword": key2]
+        let tempHeader: [String: String] = ["token": header]
         return (parameters: tempParameters, header: tempHeader)
     }
     fileprivate func fetchSignInParameters() -> RequestModel {
-        var tempParameters = [String : Any]()
-        var tempHeader = [String: String]()
-        switch self {
-        case let .signIn (key1: key1, key2: key2, header: header):
-            tempParameters["signInAccount"] = key1
-            tempParameters["signInPassword"] = key2
-            tempHeader["token"] = header
-        default:
-            break
-        }
+        guard case let .signIn (key1: key1, key2: key2, header: header) = self else { return (nil, nil) }
+        let tempParameters: [String : Any] = ["signInAccount": key1, "signInPassword": key2]
+        let tempHeader: [String: String] = ["token": header]
         return (parameters: tempParameters, header: tempHeader)
     }
     fileprivate func fetchSignOutParameters() -> RequestModel {
-        var tempParameters = [String : Any]()
-        var tempHeader = [String: String]()
-        switch self {
-        case let .signOut (key1: key1, key2: key2, header: header):
-            tempParameters["signOutAccount"] = key1
-            tempParameters["signOutPassword"] = key2
-            tempHeader["token"] = header
-        default:
-            break
-        }
+        guard case let .signOut (key1: key1, key2: key2, header: header) = self else { return (nil, nil) }
+        let tempParameters: [String : Any] = ["signOutAccount": key1, "signOutPassword": key2]
+        let tempHeader: [String: String] = ["token": header]
         return (parameters: tempParameters, header: tempHeader)
     }
 }
@@ -103,30 +82,16 @@ enum ShowAPI {
     }
     
     fileprivate func fetchJoinParameters() -> RequestModel {
-        var tempParameters = [String : Any]()
-        var tempHeader = [String: String]()
-        switch self {
-        case let .join (key1: key1, key2: key2, header: header):
-            tempParameters["joinShowID"] = key1
-            tempParameters["time"] = key2
-            tempHeader["token"] = header
-        default:
-            break
-        }
+        guard case let .join (key1: key1, key2: key2, header: header) = self else { return (nil, nil) }
+        let tempParameters: [String : Any] = ["joinShowID": key1, "time": key2]
+        let tempHeader: [String: String] = ["token": header]
         return (parameters: tempParameters, header: tempHeader)
     }
     
     fileprivate func fetchExitParameters() -> RequestModel {
-        var tempParameters = [String : Any]()
-        var tempHeader = [String: String]()
-        switch self {
-        case let .exit (key1: key1, key2: key2, header: header):
-            tempParameters["exitShowID"] = key1
-            tempParameters["time"] = key2
-            tempHeader["token"] = header
-        default:
-            break
-        }
+        guard case let .exit (key1: key1, key2: key2, header: header) = self else { return (nil, nil) }
+        let tempParameters: [String : Any] = ["exitShowID": key1, "time": key2]
+        let tempHeader: [String: String] = ["token": header]
         return (parameters: tempParameters, header: tempHeader)
     }
 }
