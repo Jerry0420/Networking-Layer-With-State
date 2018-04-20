@@ -140,7 +140,7 @@ extension ShowAPI: APIEndPointProtocol {
         case .join:
             apiRequestValues = APIRequestValues(url: urlString, httpVerb: .POST, requestModel: fetchJoinParameters(), contentType: .urlencoded)
         case .exit:
-            apiRequestValues = APIRequestValues(url: urlString)
+            apiRequestValues = APIRequestValues(url: urlString, httpVerb: .POST, requestModel: fetchExitParameters(), contentType: .urlencoded)
         }
         return apiRequestValues
     }

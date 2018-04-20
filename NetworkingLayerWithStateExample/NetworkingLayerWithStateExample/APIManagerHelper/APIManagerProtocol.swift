@@ -14,17 +14,6 @@ typealias RequestModel = (parameters: [String : Any]?, header: [String: String]?
 
 protocol APIEndPointProtocol {
     func provideValues()-> APIRequestValues
-    var url: String { get }
-    var httpVerb: URLRequest.HTTPVerb { get }
-    var requestModel: RequestModel { get }
-    var contentType: URLRequest.ContentType { get }
-}
-
-extension APIEndPointProtocol {
-    var url: String { return provideValues().url }
-    var httpVerb: URLRequest.HTTPVerb { return provideValues().httpVerb }
-    var requestModel: RequestModel { return provideValues().requestModel }
-    var contentType: URLRequest.ContentType { return provideValues().contentType }
 }
 
 struct APIRequestValues {
@@ -33,7 +22,7 @@ struct APIRequestValues {
     let requestModel: RequestModel
     let contentType: URLRequest.ContentType
     
-    init (url: String, httpVerb: URLRequest.HTTPVerb = .GET, requestModel: RequestModel = (parameters: nil, header: nil), contentType: URLRequest.ContentType = .others) {
+    init (url: String, httpVerb: URLRequest.HTTPVerb = .GET, requestModel: RequestModel, contentType: URLRequest.ContentType = .others) {
         self.url = url
         self.httpVerb = httpVerb
         self.requestModel = requestModel

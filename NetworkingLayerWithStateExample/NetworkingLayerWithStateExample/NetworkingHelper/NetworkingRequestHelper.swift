@@ -43,11 +43,11 @@ extension URLRequest{
 struct HTTPService{
     private init() {}
     static func generateRequest(with api: APIEndPointProtocol) -> URLRequest{
-        
-        var urlComponents = URLComponents(string: api.url)!
+        let apiValues = api.provideValues()
+        var urlComponents = URLComponents(string: apiValues.url)!
         urlComponents.queryItems = []
         
-        if let parameters = api.requestModel.parameters {
+        if let parameters = apiValues.requestModel.parameters {
             for (key, value) in parameters{
                 urlComponents.queryItems?.append(URLQueryItem(name: key, value: (value as! String)))
             }
@@ -55,7 +55,7 @@ struct HTTPService{
         
         var request = URLRequest(url: urlComponents.url!)
         
-        if let headers = api.requestModel.header {
+        if let headers = apiValues.requestModel.header {
             for (key,value) in headers {
                 request.addValue(value, forHTTPHeaderField: key)
             }

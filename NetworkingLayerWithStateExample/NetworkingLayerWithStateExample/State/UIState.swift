@@ -26,8 +26,6 @@ protocol UIStateProtocol {
     var loadingView: LoadingView { get }
     var errorView: ErrorView { get }
     var emptyView: EmptyView { get }
-    
-    func update()
 }
 
 extension UIStateProtocol where Self: UIViewController {
