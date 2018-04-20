@@ -9,9 +9,9 @@
 import Foundation
 
 // MARK: - Public method for BaseURL
-struct ShowAPIService: ResponseManager {
+struct ShowAPIService: RequestManager {
     
-    fileprivate let session: URLSessionProtocol
+    let session: URLSessionProtocol
     
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
@@ -19,19 +19,15 @@ struct ShowAPIService: ResponseManager {
     
     func join<T>(key1: String, key2: String, header: String, model: T.Type, _ completionHandler: @escaping ResultCompletionHandler<T>) -> URLSessionDataTaskProtocol {
         
-        let request = HTTPService.generateRequest(with: ShowAPI.join(key1: key1, key2: key2, header: header))
-        let task = session.dataTask(with: request) { (data, response, url, error) in
-            self.handle(with: (data, response, url, error), model: model, completionHandler: completionHandler)
-        }
+        let apiInformation = ShowAPI.join(key1: key1, key2: key2, header: header)
+        let task = generateTask(with: apiInformation, model: model, completionHandler)
         return task
     }
     
     func exit<T>(key1: String, key2: String, header: String, model: T.Type, _ completionHandler: @escaping ResultCompletionHandler<T>) -> URLSessionDataTaskProtocol {
         
-        let request = HTTPService.generateRequest(with: ShowAPI.exit(key1: key1, key2: key2, header: header))
-        let task = session.dataTask(with: request) { (data, response, url, error) in
-            self.handle(with: (data, response, url, error), model: model, completionHandler: completionHandler)
-        }
+        let apiInformation = ShowAPI.exit(key1: key1, key2: key2, header: header)
+        let task = generateTask(with: apiInformation, model: model, completionHandler)
         return task
     }
 }

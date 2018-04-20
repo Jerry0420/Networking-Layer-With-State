@@ -11,17 +11,24 @@ import Foundation
 typealias ResultCompletionHandler<T: Codable> = (ResponseState<T>)->()
 typealias responseContent = (data: Data?, response:  URLResponse?, url: URL, error: Error?)
 
-protocol ResponseManager {
+protocol RequestManager {
+    var session: URLSessionProtocol { get }
     ///for D.I.
     init(session: URLSessionProtocol)
-    
-    ///Response check
-    func handle<T>(with responseContent: responseContent, model: T.Type, completionHandler: ResultCompletionHandler<T>)
 }
 
-extension ResponseManager {
+extension RequestManager {
     
-    func handle<T>(with responseContent: responseContent, model: T.Type, completionHandler: ResultCompletionHandler<T>) {
+    func generateTask<T>(with apiInformation: APIEndPointProtocol, model: T.Type, _ completionHandler: @escaping ResultCompletionHandler<T>) -> URLSessionDataTaskProtocol {
+        
+        let request = HTTPService.generateRequest(with: apiInformation)
+        let task = session.dataTask(with: request) { (data, response, url, error) in
+            self.handleResponse(with: (data, response, url, error), model: model, completionHandler: completionHandler)
+        }
+        return task
+    }
+    ///Response check
+    func handleResponse<T>(with responseContent: responseContent, model: T.Type, completionHandler: ResultCompletionHandler<T>) {
 
         guard responseContent.error == nil else {
             completionHandler(ResponseState.failure(NetworkingError.error(responseContent.error!)))

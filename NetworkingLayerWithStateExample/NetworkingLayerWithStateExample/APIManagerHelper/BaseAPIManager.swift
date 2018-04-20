@@ -27,7 +27,7 @@ enum MemberAPI {
         return "https://memberBaseURL.com" + endPoint
     }
     
-    fileprivate func fetchSignUpParameters()->(parameters: [String : Any], header: [String: String]) {
+    fileprivate func fetchSignUpParameters() -> RequestModel {
         var tempParameters = [String : Any]()
         var tempHeader = [String: String]()
         switch self {
@@ -40,7 +40,7 @@ enum MemberAPI {
         }
         return (parameters: tempParameters, header: tempHeader)
     }
-    fileprivate func fetchSignInParameters()->(parameters: [String : Any], header: [String: String]) {
+    fileprivate func fetchSignInParameters() -> RequestModel {
         var tempParameters = [String : Any]()
         var tempHeader = [String: String]()
         switch self {
@@ -53,7 +53,7 @@ enum MemberAPI {
         }
         return (parameters: tempParameters, header: tempHeader)
     }
-    fileprivate func fetchSignOutParameters()->(parameters: [String : Any], header: [String: String]) {
+    fileprivate func fetchSignOutParameters() -> RequestModel {
         var tempParameters = [String : Any]()
         var tempHeader = [String: String]()
         switch self {
@@ -71,19 +71,17 @@ enum MemberAPI {
 extension MemberAPI: APIEndPointProtocol {
     func provideValues() -> APIRequestValues {
         
+        var apiRequestValues: APIRequestValues
+        
         switch self {
         case .signUp:
-            let results = fetchSignUpParameters()
-            return APIRequestValues(url: urlString, httpMethod: .GET, parameters: results.parameters, header: results.header, contentType: .others)
-            
+            apiRequestValues = APIRequestValues(url: urlString, httpVerb: .POST, requestModel: fetchSignUpParameters(), contentType: .urlencoded)
         case .signIn:
-            let results = fetchSignInParameters()
-            return APIRequestValues(url: urlString, httpMethod: .GET, parameters: results.parameters, header: results.header, contentType: .others)
-            
+            apiRequestValues = APIRequestValues(url: urlString, httpVerb: .POST, requestModel: fetchSignInParameters(), contentType: .urlencoded)
         case .signOut:
-            let _ = fetchSignOutParameters()
-            return APIRequestValues(url:urlString)
+            apiRequestValues = APIRequestValues(url: urlString, httpVerb: .POST, requestModel: fetchSignOutParameters(), contentType: .urlencoded)
         }
+        return apiRequestValues
     }
 }
 
@@ -104,7 +102,7 @@ enum ShowAPI {
         return "https://showBaseURL.com" + endPoint
     }
     
-    fileprivate func fetchJoinParameters()->(parameters: [String : Any], header: [String: String]) {
+    fileprivate func fetchJoinParameters() -> RequestModel {
         var tempParameters = [String : Any]()
         var tempHeader = [String: String]()
         switch self {
@@ -118,7 +116,7 @@ enum ShowAPI {
         return (parameters: tempParameters, header: tempHeader)
     }
     
-    fileprivate func fetchExitParameters()->(parameters: [String : Any], header: [String: String]) {
+    fileprivate func fetchExitParameters() -> RequestModel {
         var tempParameters = [String : Any]()
         var tempHeader = [String: String]()
         switch self {
@@ -136,13 +134,14 @@ enum ShowAPI {
 extension ShowAPI: APIEndPointProtocol {
     func provideValues() -> APIRequestValues {
         
+        var apiRequestValues: APIRequestValues
+        
         switch self {
         case .join:
-            let results = fetchJoinParameters()
-            return APIRequestValues(url: urlString, httpMethod: .GET, parameters: results.parameters, header: results.header, contentType: .others)
+            apiRequestValues = APIRequestValues(url: urlString, httpVerb: .POST, requestModel: fetchJoinParameters(), contentType: .urlencoded)
         case .exit:
-            let _ = fetchExitParameters()
-            return APIRequestValues(url:urlString)
+            apiRequestValues = APIRequestValues(url: urlString)
         }
+        return apiRequestValues
     }
 }

@@ -47,7 +47,7 @@ struct HTTPService{
         var urlComponents = URLComponents(string: api.url)!
         urlComponents.queryItems = []
         
-        if let parameters = api.parameters {
+        if let parameters = api.requestModel.parameters {
             for (key, value) in parameters{
                 urlComponents.queryItems?.append(URLQueryItem(name: key, value: (value as! String)))
             }
@@ -55,7 +55,7 @@ struct HTTPService{
         
         var request = URLRequest(url: urlComponents.url!)
         
-        if let headers = api.header {
+        if let headers = api.requestModel.header {
             for (key,value) in headers {
                 request.addValue(value, forHTTPHeaderField: key)
             }
